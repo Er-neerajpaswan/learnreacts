@@ -1,23 +1,40 @@
-import logo from './logo.svg';
 import './App.css';
+import Register from './screens/Register';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import UserList from './screens/UserList';
+import { Provider } from 'react-redux';
+import { store } from "./store/store"; 
+import { CountProvider } from './context/CountContext';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Register />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/user-list",
+    element: <UserList />,
+  },
+
+  // ⭐ MUST HAVE – fixes __shim-error-route__
+  {
+    path: "*",
+    element: <h1>Page Not Found</h1>,
+  }
+]);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Provider store={store}>
+        <CountProvider>
+          <RouterProvider router={router} />
+        </CountProvider>
+      </Provider>
     </div>
   );
 }
